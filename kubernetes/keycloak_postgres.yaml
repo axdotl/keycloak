@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: keycloak-postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: keycloak-postgres
+    spec:
+      containers:
+      - name: keycloak-postgres
+        image: postgres:9.6.1
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DATABASE
+          value: "keycloak"
+        - name: POSTGRES_USER
+          value: "keycloak"
+        - name: POSTGRES_PASSWORD
+          value: "password"
+        - name: POSTGRES_ROOT_PASSWORD
+          value: "password"
+#        readinessProbe:
+#          tcpSocket:
+#            port: 5432
+#          initialDelaySeconds: 10
+ #         periodSeconds: 5
+#        livenessProbe:
+#          tcpSocket:
+ #           port: 5432
+ #         initialDelaySeconds: 30
+ #         periodSeconds: 10
+#       resources:
+#         requests:
+#           memory: "64Mi"
+#            cpu: "100m"
+#          limits:
+#            memory: "256Mi"
+#            cpu: "500m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    name: keycloak-postgres
+  name: postgres
+spec:
+  type: NodePort
+  ports:
+  - name: pgport
+    port: 5432
+  selector:
+    name: keycloak-postgres
