@@ -23,23 +23,6 @@ spec:
           value: "password"
         - name: POSTGRES_ROOT_PASSWORD
           value: "password"
-#        readinessProbe:
-#          tcpSocket:
-#            port: 5432
-#          initialDelaySeconds: 10
- #         periodSeconds: 5
-#        livenessProbe:
-#          tcpSocket:
- #           port: 5432
- #         initialDelaySeconds: 30
- #         periodSeconds: 10
-#       resources:
-#         requests:
-#           memory: "64Mi"
-#            cpu: "100m"
-#          limits:
-#            memory: "256Mi"
-#            cpu: "500m"
 ---
 kind: Service
 apiVersion: v1

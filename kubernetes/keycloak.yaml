@@ -15,7 +15,6 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 8443
-        - containerPort: 9990
         env:
         - name: POSTGRES_DATABASE
           value: "keycloak"
@@ -26,7 +25,7 @@ spec:
         - name: KEYCLOAK_USER
           value: "admin"
         - name: KEYCLOAK_PASSWORD
-          value: "Aihoecheet3eigheiyaeghio"
+          value: "admin"
         - name:  PROXY_ADDRESS_FORWARDING
           value: "true"
         readinessProbe:
@@ -39,13 +38,6 @@ spec:
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 10
-#        resources:
-#          requests:
-#            memory: "256Mi"
-#            cpu: "50m"
-#          limits:
-#            memory: "1Gi"
-#            cpu: "250m"          
 ---
 kind: Service
 apiVersion: v1
@@ -60,7 +52,5 @@ spec:
     port: 8080
   - name: https
     port: 8443
-  - name: mgmt
-    port: 9990
   selector:
     name: keycloak
