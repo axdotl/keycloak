@@ -14,7 +14,6 @@ spec:
         image: jboss/keycloak:3.1.0.Final
         ports:
         - containerPort: 8080
-        - containerPort: 8443
         env:
         - name: POSTGRES_DATABASE
           value: "keycloak"
@@ -50,7 +49,25 @@ spec:
   ports:
   - name: http
     port: 8080
-  - name: https
-    port: 8443
   selector:
     name: keycloak
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: keycloak
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - hosts:
+    - keycloak.somewhere
+    secretName: keycloak-tls
+  rules:
+  - host: keycloak.somewhere
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: keycloak
+          servicePort: 8080
